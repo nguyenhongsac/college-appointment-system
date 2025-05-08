@@ -1,0 +1,31 @@
+{
+  "name": "college-appointment-system",
+  "version": "1.0.0",
+  "description": "This is an engineer intern assignment",
+  "bugs": {
+    "url": "https://github.com/nguyenhongsac/college-appointment-system/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyenhongsac/college-appointment-system.git"
+  },
+  "license": "MIT",
+  "author": "Nguyen Hong Sac",
+  "type": "commonjs",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.14.1"
+  },
+  "keywords": [
+    "node",
+    "mongoose",
+    "express"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  }
+}
