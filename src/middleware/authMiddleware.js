@@ -34,4 +34,16 @@ const protect = async function (req, res, next) {
     }
 }
 
-module.exports = protect;
+// Verify role
+const authRole = function(...roles) {
+    return function(req, res, next) {
+        if (!req.user || !req.user.role) {
+            return res.status(401).json({ success: false, message: "Not authorized" });
+        }
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ success: false, message: "You can not access this" });
+        }
+    }
+};
+
+module.exports = { protect, authRole };

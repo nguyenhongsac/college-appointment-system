@@ -16,19 +16,19 @@ const generateToken = function(userId, role) {
     Register new user
     POST /api/auth/register
 */
-const registerUser = async function (req, res) {
+const registerUser = async function(req, res) {
   try {
 
-    const { username, password, role, phone, age } = req.body;
+    const { username, password, fullname, role, phone, age } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json({ message: "Please provide username and password" });
+        return res.status(400).json({ success: false, message: "Please provide username and password" });
     }
 
     // Check username already exists
     const userExists = await User.findOne({ username: username });
     if (userExists) {
-        return res.status(400).json({ message: "Username already exists" });
+        return res.status(400).json({ success: false, message: "Username already exists" });
     }
 
     // Modify role
@@ -46,6 +46,7 @@ const registerUser = async function (req, res) {
     const user = await User.create({
         username: username,
         password: passwordHash,
+        fullname: fullname,
         role: userRole,
         phone: phone || null,
         age: age || null
@@ -57,11 +58,13 @@ const registerUser = async function (req, res) {
         console.log("[INFO] A new user has been registered.");
 
         return res.status(201).json({ 
+            success: true,
             message: "User registered successfully",
             token,
             user: {
                 _id: user._id,
                 username: user.username,
+                fullname: user.fullname,
                 role: user.role,
                 phone: user.phone,
                 age: user.age
@@ -69,12 +72,12 @@ const registerUser = async function (req, res) {
         });
 
     } else {
-        return res.status(400).json({ message: "Cannot create user" });
+        return res.status(400).json({ success: false, message: "Cannot create user" });
     }
 
   } catch (err) {
     console.log("[ERR] Registration error: ", err);
-    return res.status(400).json({ message: "Server error during registration" });
+    return res.status(400).json({ success: false, message: "Server error during registration" });
   } 
 };
 
@@ -88,20 +91,20 @@ const loginUser = async function(req, res) {
         const { username, password } = req.body;
 
         if (!username || !password) {
-            return res.status(400).json({ message: "Please provide username and password" });
+            return res.status(400).json({ success: false, message: "Please provide username and password" });
         }
 
         // Check username
         const user = await User.findOne({ username });
         if (!user) {
-            return res.status(401).json({ message: "Username not found" });
+            return res.status(401).json({ success: false, message: "Username not found" });
         }
 
         // Check if password matches
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(401).json({ message: "Password missmatch" });
+            return res.status(401).json({ success: false, message: "Password missmatch" });
         }
 
         // Generate token for user
@@ -110,11 +113,13 @@ const loginUser = async function(req, res) {
         console.log("[INFO] An user has been logined.");
 
         res.status(200).json({
+            success: true,
             message: "Login successful",
             token,
             user: {
                 _id: user._id,
                 username: user.username,
+                fullname: user.fullname,
                 role: user.role,
                 phone: user.phone,
                 age: user.age
@@ -123,7 +128,7 @@ const loginUser = async function(req, res) {
 
     } catch (err) {
         console.log("[ERR] Login error: ", err);
-        return res.status(500).json({ message: "Login error" });
+        return res.status(500).json({ success: false, message: "Login error" });
     }
 }
 
