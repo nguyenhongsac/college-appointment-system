@@ -21,19 +21,19 @@ app.get("/", function(req, res) {
     Authentication api
 */
 const authRoutes = require("./src/routes/authRoutes");
-app.use("/api/auth/", authRoutes);
+app.use("/api/auth", authRoutes);
 
 /*
     Availability slot api
 */
 const availabilitySlotRoutes = require("./src/routes/availabilitySlotRoutes");
-app.use("/api/availability/", availabilitySlotRoutes);
+app.use("/api/availability", availabilitySlotRoutes);
 
 /*
     Appointment api
 */
 const appointmentRoutes = require("./src/routes/appointmentRoutes");
-app.use("/api/appointment/", appointmentRoutes);
+app.use("/api/appointment", appointmentRoutes);
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {

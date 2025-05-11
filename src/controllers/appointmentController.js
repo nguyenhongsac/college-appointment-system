@@ -95,7 +95,7 @@ const updateAppointment = async function(req, res) {
     if (!notes) {
         return res.status(400).json({ success: false, message: "Missing notes" });
     }
-    if (!status || !["pending", "cancelled", "accepted", "expired"].includes(status)) {
+    if (!status || !["cancelled", "accepted", "expired"].includes(status)) {
         return res.status(400).json( {success: false, message: "Invalid status" });
     }
 

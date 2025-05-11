@@ -14,10 +14,11 @@ const protect = async function (req, res, next) {
 
             // Verify token
             const decoded = jwt.verify(token, JWT_SECRET);
+            // console.log("[JWT] ", decoded);
 
             // Get user
             req.user = await User.findById(decoded.userId).select("-password");
-
+            
             if (!req.user) {
                 return res.status(401).json({ error: "User not found" });
             }
@@ -43,6 +44,8 @@ const authRole = function(...roles) {
         if (!roles.includes(req.user.role)) {
             return res.status(403).json({ success: false, message: "You can not access this" });
         }
+        
+        next();
     }
 };
 

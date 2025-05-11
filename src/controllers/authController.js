@@ -57,7 +57,7 @@ const registerUser = async function(req, res) {
 
         console.log("[INFO] A new user has been registered.");
 
-        return res.status(201).json({ 
+        res.status(201).json({ 
             success: true,
             message: "User registered successfully",
             token,
@@ -77,7 +77,7 @@ const registerUser = async function(req, res) {
 
   } catch (err) {
     console.log("[ERR] Registration error: ", err);
-    return res.status(400).json({ success: false, message: "Server error during registration" });
+    return res.status(500).json({ success: false, message: "Server error during registration" });
   } 
 };
 

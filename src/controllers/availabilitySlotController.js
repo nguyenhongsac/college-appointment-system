@@ -23,7 +23,11 @@ const viewSlot = async function(req, res) {
 
         console.log("[INFO] Someone views availability slot");
         
-        res.status(200).json({ success: true, count: slots.length, slots });
+        res.status(200).json({ 
+            success: true, 
+            count: slots.length, 
+            slots 
+        });
         
     } catch (err) {
         console.log("[ERR] View availability slot: ", err);
@@ -73,11 +77,17 @@ const createSlot = async function(req, res) {
         const newSlot = await AvailabilitySlot.create({
             professorId: professorId,
             startTime: startTime,
-            endTime: endTime
+            endTime: endTime,
+            isAvailable: true,
+            isBooked: false
         });
         console.log("[INFO] A new available slot is created");
 
-        res.status(201).json({ success: true, message: "Available slot created successfully" });
+        res.status(201).json({ 
+            success: true, 
+            message: "Available slot created successfully", 
+            newSlot 
+        });
 
     } catch (err) {
         console.log("[ERR] Create availability slot: ", err);
@@ -98,7 +108,8 @@ const updateSlot = async function(req, res) {
     if (!mongoose.Types.ObjectId.isValid(slotId)) {
         return res.status(400).json( {success: false, message: "Invalid available slot id" });
     }
-    if (!startTime || !endTime || !isAvailable || !isBooked) {
+    
+    if (!startTime || !endTime || isAvailable === undefined || isBooked === undefined) {
         return res.status(400).json({ success: false, message: "Slot information is required" });
     }
 
@@ -106,7 +117,10 @@ const updateSlot = async function(req, res) {
     const endDate = new Date(endTime);
 
     if (startDate >= endDate) {
-        return res.status(400).json({ success: false, message: "Start time must be before end time" });
+        return res.status(400).json({ 
+            success: false, 
+            message: "Start time must be before end time" 
+        });
     }
 
     try {
@@ -123,7 +137,11 @@ const updateSlot = async function(req, res) {
 
         console.log("[INFO] Someone updates an available slot");
 
-        res.status(200).json({ success: true, message: "Available slot updated successfully", updatedSlot });
+        res.status(200).json({ 
+            success: true, 
+            message: "Available slot updated successfully", 
+            updatedSlot 
+        });
 
     } catch (err) {
         console.log("[ERR] Update availability slot: ", err);
@@ -150,7 +168,11 @@ const deleteSlot = async function(req, res) {
 
         console.log("[INFO] A available slot was deleted");
 
-        res.status(200).json({ success: true, message: "Available slot updated successfully", deletedSlot });
+        res.status(200).json({ 
+            success: true, 
+            message: "Available slot updated successfully", 
+            deletedSlot 
+        });
 
     } catch (err) {
         console.log("[ERR] Delete availability slot: ", err);
