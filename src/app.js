@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect mongo atlas
-const mongoose = require("./src/config/db");
+const mongoose = require("./config/db");
 
 // First api
 app.get("/", function(req, res) {
@@ -20,22 +20,19 @@ app.get("/", function(req, res) {
 /*
     Authentication api
 */
-const authRoutes = require("./src/routes/authRoutes");
+const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 
 /*
     Availability slot api
 */
-const availabilitySlotRoutes = require("./src/routes/availabilitySlotRoutes");
+const availabilitySlotRoutes = require("./routes/availabilitySlotRoutes");
 app.use("/api/availability", availabilitySlotRoutes);
 
 /*
     Appointment api
 */
-const appointmentRoutes = require("./src/routes/appointmentRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes");
 app.use("/api/appointment", appointmentRoutes);
 
-
-const listener = app.listen(process.env.PORT || 3000, () => {
-    console.log("App is listening on port " + listener.address().port)
-});
+module.exports = app;

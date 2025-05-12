@@ -20,8 +20,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.14.1",
-    "supertest": "^7.1.0"
+    "mongoose": "^8.14.1"
   },
   "keywords": [
     "node",
@@ -29,7 +28,7 @@
     "express"
   ],
   "scripts": {
-    "start": "node app.js",
+    "start": "node server.js",
     "test": "jest --runInBand --detectOpenHandles"
   },
   "jest": {
@@ -37,6 +36,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "mongodb-memory-server": "^10.1.4"
+    "mongodb-memory-server": "^10.1.4",
+    "supertest": "^7.1.0"
   }
 }

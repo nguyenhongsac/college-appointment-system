@@ -1,23 +1,23 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 
-const mongoServer = new MongoMemoryServer();
+let mongoServer;
 
 exports.dbConnect = async function() {
+    mongoServer = await MongoMemoryServer.create({
+        instance: {
+            auth: false
+        }
+    });
+
     const uri = await mongoServer.getUri();
 
-    const mongooseOpts = {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false
-    };
-
-    await mongoose.connect(uri, mongooseOpts);
+    //Disconnect with mongo atlas
+    await mongoose.disconnect();
+    await mongoose.connect(uri);
 };
 
 exports.dbDisconnect = async () => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
+    await mongoose.disconnect();
     await mongoServer.stop();
 }

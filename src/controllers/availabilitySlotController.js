@@ -53,6 +53,10 @@ const createSlot = async function(req, res) {
     const startDate = new Date(startTime);
     const endDate = new Date(endTime);
 
+    if (startDate == "Invalid Date" || endDate == "Invalid Date") {
+        return res.status(400).json({ success: false, message: "Wrong time format" });
+    }
+
     if (startDate >= endDate) {
         return res.status(400).json({ success: false, message: "Start time must be before end time" });
     }
